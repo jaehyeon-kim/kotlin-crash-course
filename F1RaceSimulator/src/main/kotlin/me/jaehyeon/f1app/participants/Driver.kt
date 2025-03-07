@@ -1,6 +1,6 @@
 @file:Suppress("ktlint:standard:no-wildcard-imports")
 
-package me.jaehyeon.me.jaehyeon.f1app.participants
+package me.jaehyeon.f1app.participants
 
 import java.util.*
 import kotlin.random.Random
@@ -9,10 +9,11 @@ class Team(
     val name: String,
     val drivers: List<Driver>,
     val raceCars: Set<RaceCar>,
+    val mainSponsor: Sponsor? = getRandomSponsor(),
 ) {
     val driverCarMap: Map<Driver, RaceCar> = drivers.zip(raceCars).toMap()
 
-    override fun toString(): String = "Team(name='$name', drivers=$drivers, raceCars=$raceCars, driverCarMap=$driverCarMap)"
+    override fun toString(): String = "Team(name='$name', drivers=$drivers, raceCars=$raceCars, mainSponsor=$mainSponsor)"
 }
 
 class Driver(
@@ -58,4 +59,21 @@ class RaceCar(
 
     override fun toString(): String =
         "RaceCar(carNumber=$carNumber, manufacturer=$manufacturer, maxSpeed=$maxSpeed, currentSpeed=$currentSpeed, currentLab=$currentLab, isPitStopNeeded=$isPitStopNeeded, lapTimes=${lapTimes.contentToString()})"
+}
+
+data class Sponsor(
+    val name: String,
+    val amount: Double,
+)
+
+fun getRandomSponsor(): Sponsor? {
+    val randomNumber = Random.nextInt(0, 11)
+    return if (randomNumber == 0) {
+        null
+    } else {
+        Sponsor(
+            name = "Sponsr$randomNumber",
+            amount = Random.nextDouble(1_000_000.0, 10_000_000.0),
+        )
+    }
 }
