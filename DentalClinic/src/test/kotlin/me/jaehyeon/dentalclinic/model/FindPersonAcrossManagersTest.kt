@@ -38,6 +38,21 @@ internal class FindPersonAcrossManagersTest {
         assertEquals(patient1, foundPerson)
     }
 
+    @Test
+    fun findDentistAcrossManagers() {
+        val foundPerson: Person? =
+            findPersonAcrossManagers(
+                id = "d1",
+                patientManager,
+                dentistManager,
+            )
+        assertNotNull(foundPerson)
+        if (foundPerson is Dentist) {
+            // smart cast from Person? to Dentist
+            assertEquals(0, foundPerson.treatmentCount)
+        }
+    }
+
     @AfterEach
     fun tearDown() {
         patientManager.removePerson(patient1.id)

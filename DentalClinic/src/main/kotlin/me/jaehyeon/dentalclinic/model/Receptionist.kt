@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package me.jaehyeon.dentalclinic.model
 
 import java.util.*

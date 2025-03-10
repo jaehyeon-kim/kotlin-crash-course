@@ -11,6 +11,7 @@ Code examples will be added to chapter branches.
 - Chapter 04: Fundamental Building Blocks of Kotlin
     - [F1RaceSimulator](./F1RaceSimulator/)
 - Chapter 05: Object-oriented Programming
+    - [DentalClinic](./DentalClinic/)
 - Chapter 06: Kotlin Collection Framework
 - Chapter 07: Scope Functions
 - Chapter 08: Functional Programming
