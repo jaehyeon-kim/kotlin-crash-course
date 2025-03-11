@@ -13,6 +13,7 @@ Code examples will be added to chapter branches.
 - Chapter 05: Object-oriented Programming
     - [DentalClinic](./DentalClinic/)
 - Chapter 06: Kotlin Collection Framework
+    - [ProductCatalog](./ProductCatalog/)
 - Chapter 07: Scope Functions
 - Chapter 08: Functional Programming
 - Chapter 09: Exploring Delegation Design Pattern
