@@ -17,6 +17,7 @@ Code examples will be added to chapter branches.
 - Chapter 07: Scope Functions
     - [ProductCatalog](./ProductCatalog/)
 - Chapter 08: Functional Programming
+    - [KotlinVoyager](./KotlinVoyager/)
 - Chapter 09: Exploring Delegation Design Pattern
 - Chapter 10: Concurrency and Parallelism
 - Chapter 11: Unit Testing in Kotlin
