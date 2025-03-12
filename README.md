@@ -15,6 +15,7 @@ Code examples will be added to chapter branches.
 - Chapter 06: Kotlin Collection Framework
     - [ProductCatalog](./ProductCatalog/)
 - Chapter 07: Scope Functions
+    - [ProductCatalog](./ProductCatalog/)
 - Chapter 08: Functional Programming
 - Chapter 09: Exploring Delegation Design Pattern
 - Chapter 10: Concurrency and Parallelism

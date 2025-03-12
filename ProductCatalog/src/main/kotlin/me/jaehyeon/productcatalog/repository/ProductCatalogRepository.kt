@@ -36,6 +36,17 @@ object ProductCatalogRepository {
 
     fun addProduct(product: Product) = products.add(product)
 
+    fun updateProductPriceByIdRefact(
+        id: Int,
+        newPrice: Double,
+    ) {
+        products.firstOrNull { it.id == id }?.run {
+            val updatedProduct = copy(price = newPrice)
+            val index = products.indexOf(this)
+            products[index] = updatedProduct
+        }
+    }
+
     fun updateProductPriceById(
         id: Int,
         newPrice: Double,
