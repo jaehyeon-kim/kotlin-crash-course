@@ -11,7 +11,7 @@ const val MAX_DRIVERS = MAX_TEAMS * 2
 // Top-level mutable variable, accessible throughout the project
 var currentWeather: String = "Sunny"
 
-fun main() {
+fun runCustomRace() {
     fun promptString(prompt: String): String {
         print(prompt)
         return readLine() ?: ""
@@ -80,4 +80,53 @@ fun main() {
 
     val race = Race(numberOfLaps = numLaps, teams = teams)
     race.runRace()
+}
+
+fun runPreconfigureRace() {
+    val numberOfLaps = 3
+    val teamHamilton =
+        Team(
+            name = "Mercedes",
+            drivers =
+                listOf(
+                    Driver("Lewis Hamilton"),
+                    Driver
+                        ("Valtteri Bottas"),
+                ),
+            raceCars =
+                setOf(
+                    RaceCar(carNumber = 44, numLaps = numberOfLaps),
+                    RaceCar(carNumber = 77, numLaps = numberOfLaps),
+                ),
+        )
+    val teamVerstappen =
+        Team(
+            name = "Red Bull",
+            drivers =
+                listOf(
+                    Driver("Max Verstappen"),
+                    Driver("Sergio Perez"),
+                ),
+            raceCars =
+                setOf(
+                    RaceCar(carNumber = 33, numLaps = numberOfLaps),
+                    RaceCar(carNumber = 11, numLaps = numberOfLaps),
+                ),
+        )
+
+    Race(
+        numberOfLaps = numberOfLaps,
+        teams = listOf(teamHamilton, teamVerstappen),
+    ).runRace()
+}
+
+fun main() {
+    println("Choose an option:")
+    println("1. Enter race details manually")
+    println("2. Run preconfigured race (default")
+    val choice = readLine()?.toIntOrNull() ?: 2
+    when (choice) {
+        2 -> runPreconfigureRace()
+        else -> runCustomRace()
+    }
 }

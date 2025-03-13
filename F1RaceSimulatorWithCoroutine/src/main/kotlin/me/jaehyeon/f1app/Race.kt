@@ -1,5 +1,8 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package me.jaehyeon.f1app
 
+import kotlinx.coroutines.*
 import me.jaehyeon.f1app.participants.Driver
 import me.jaehyeon.f1app.participants.RaceCar
 import me.jaehyeon.f1app.participants.Team
@@ -8,9 +11,10 @@ import kotlin.random.Random
 class Race(
     val numberOfLaps: Int,
     val teams: List<Team>,
-    var currentLap: Int = 0,
+//    var currentLap: Int = 0,
 ) {
     val raceResults: MutableList<Result> = mutableListOf()
+    private val raceScope = CoroutineScope(Dispatchers.Default)
 
     data class Result(
         val team: Team,
@@ -20,27 +24,53 @@ class Race(
         var fastestLap: Double = Double.MAX_VALUE,
     )
 
-    private fun runLap() {
-        teams.forEach { team ->
-            team.driverCarMap.forEach { (driver, car) ->
-                val result = findOrAddResult(team, driver, car)
-                // If the car needs a pit stop, we skip this lap for the driver
-                if (car.isPitStopNeeded) {
-                    handlePitStop(result)
-                } else {
-                    runLapForDriver(result)
-                }
+    private suspend fun runCarRace(
+        car: RaceCar,
+        team: Team,
+        driver: Driver,
+    ) {
+        for (lap in 1..numberOfLaps) {
+            val threadName = "Thread ${Thread.currentThread().name}"
+            val carName = "Car ${car.carNumber}"
+            val driverName = "Driver ${driver.name}"
+            val lapContext = "$driverName in $carName on $threadName"
+            println("$lapContext starts lap $lap.")
+            val result = findOrAddResult(team, driver, car)
+            if (car.isPitStopNeeded) {
+                handlePitStop(result)
+                println("$lapContext completes lap after a pitstop.")
+            } else {
+                runLapForDriver(result)
+                println("$lapContext completes lap $lap.")
             }
         }
     }
 
+//    private fun runLap() {
+//        teams.forEach { team ->
+//            team.driverCarMap.forEach { (driver, car) ->
+//                val result = findOrAddResult(team, driver, car)
+//                // If the car needs a pit stop, we skip this lap for the driver
+//                if (car.isPitStopNeeded) {
+//                    handlePitStop(result)
+//                } else {
+//                    runLapForDriver(result)
+//                }
+//            }
+//        }
+//    }
+
     private fun runLapForDriver(result: Result) {
+        val carName = "Car${result.car.carNumber}"
+        val threadName = "thread ${Thread.currentThread().name}"
+        println("$carName on thread $threadName starts lap.")
         try {
             val lapTime = simulateLap(result.driver, result.car)
             result.totalLapTime += lapTime
             if (lapTime < result.fastestLap) {
                 result.fastestLap = lapTime
             }
+            println("$carName on thread $threadName completes lap.")
         } catch (e: SafetyCarException) {
             println("${e.message} Safety car deployed.")
             slowDownLapTimes()
@@ -115,18 +145,38 @@ class Race(
             }
     }
 
-    fun runRace() {
+    suspend fun runRace() {
         start()
         end()
     }
 
-    fun start() {
-        for (lap in 1..numberOfLaps) {
-            currentLap = lap
-            println("Starting lap $currentLap")
-            runLap()
+    suspend fun start() {
+        val jobs = mutableListOf<Job>()
+        teams.forEach { team ->
+            team.driverCarMap.forEach { (driver, car) ->
+                val job =
+                    raceScope.launch {
+                        runCarRace(car, team, driver)
+                    }
+                jobs.add(job)
+            }
         }
+        // wait for all cards to complete the race
+        jobs.joinAll()
     }
+
+//    fun runRace() {
+//        start()
+//        end()
+//    }
+
+//    fun start() {
+//        for (lap in 1..numberOfLaps) {
+//            currentLap = lap
+//            println("Starting lap $currentLap")
+//            runLap()
+//        }
+//    }
 
     fun end() {
         awardPoints()
