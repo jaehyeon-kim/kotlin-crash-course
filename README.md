@@ -9,7 +9,7 @@ Code examples will be added to chapter branches.
 - Chapter 03: Setting up the Development Environment
     - [ComplimentGenerator](./ComplimentGenerator/)
 - Chapter 04: Fundamental Building Blocks of Kotlin
-    - [F1RaceSimulator](./F1RaceSimulator/)
+    - [F1RaceSimulatorWithoutCoroutine](./F1RaceSimulatorWithoutCoroutine/)
 - Chapter 05: Object-oriented Programming
     - [DentalClinic](./DentalClinic/)
 - Chapter 06: Kotlin Collection Framework
@@ -21,6 +21,7 @@ Code examples will be added to chapter branches.
 - Chapter 09: Exploring Delegation Design Pattern
     - [KotlinBrew](./KotlinBrew/)
 - Chapter 10: Concurrency and Parallelism
+    - [F1RaceSimulatorWithCoroutine](./F1RaceSimulatorWithCoroutine/)
 - Chapter 11: Unit Testing in Kotlin
 - Chapter 12: Building a Simple REST API
 - Chapter 13: Building Event-Driven Cloud Native Serverless Application
