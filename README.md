@@ -19,6 +19,7 @@ Code examples will be added to chapter branches.
 - Chapter 08: Functional Programming
     - [KotlinVoyager](./KotlinVoyager/)
 - Chapter 09: Exploring Delegation Design Pattern
+    - [KotlinBrew](./KotlinBrew/)
 - Chapter 10: Concurrency and Parallelism
 - Chapter 11: Unit Testing in Kotlin
 - Chapter 12: Building a Simple REST API
