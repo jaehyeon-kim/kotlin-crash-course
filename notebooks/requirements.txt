@@ -1,0 +1,7 @@
+jupyterlab
+# code formatting
+jupyter-ruff
+# theme
+JLDracula
+# kotlin kernel
+kotlin-jupyter-kernel
