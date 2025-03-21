@@ -1,32 +1,34 @@
 package me.jaehyeon.clinic.model
 
+import me.jaehyeon.clinic.service.PersonManager
 import java.time.LocalDateTime
 import java.util.UUID
 
 object Clinic {
-    val patients = mutableMapOf<String, Patient>()
-    val dentists = mutableMapOf<String, Dentist>()
+    val patients = PersonManager<Patient>()
+    val dentists = PersonManager<Dentist>()
+    val hygienists = PersonManager<Hygienist>()
     val treatments = mutableMapOf<String, Treatment>()
     val appointments = mutableListOf<Appointment>()
 
-    fun addPatient(patient: Patient) = patients.put(patient.id, patient)
+    fun addPatient(patient: Patient) = patients.addPerson(patient)
 
-    fun addDentist(dentist: Dentist) = dentists.put(dentist.id, dentist)
+    fun addDentist(dentist: Dentist) = dentists.addPerson(dentist)
 
     fun addTreatment(treatment: Treatment) = treatments.put(treatment.id, treatment)
 
     fun scheduleAppointment(
         patientId: String,
-        dentistId: String,
+        dentalPractitionerId: String,
         time: LocalDateTime,
         treatmentId: String,
     ) {
         val patient =
-            checkNotNull(patients[patientId]) {
+            checkNotNull(patients.getPersonById(patientId)) {
                 // throw IllegalStateException with the following message.
                 "Patient not found"
             }
-        val dentist = checkNotNull(dentists[dentistId]) { "Dentist not found" }
+        val dentist = checkNotNull(dentists.getPersonById(dentalPractitionerId)) { "Dentist not found" }
         val treatment = checkNotNull(treatments[treatmentId]) { "Treatment not found" }
         appointments.add(
             Appointment(
@@ -38,4 +40,19 @@ object Clinic {
             ),
         )
     }
+
+    private fun isAvailable(person: DentalPractitioner): Boolean = Character.getNumericValue(person.id.last()) % 2 == 0
+}
+
+inline fun <reified T> findPersonAcrossManagers(
+    id: String,
+    vararg managers: PersonManager<*>,
+): T? {
+    for (manager in managers) {
+        val person = manager.getPersonById(id)
+        if (person != null && person is T) {
+            return person
+        }
+    }
+    return null
 }

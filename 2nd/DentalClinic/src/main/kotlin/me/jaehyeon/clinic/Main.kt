@@ -10,7 +10,6 @@ import java.time.Month
 fun main() {
     val schedulers = listOf(DefaultAppointmentScheduler(), WeekendAppointmentScheduler())
     val controller = AppointmentController(schedulers)
-    val request = AppointmentRequest("P1", "D1", LocalDateTime.now(), "T1")
 
     println(
         controller.scheduleAppointment(
