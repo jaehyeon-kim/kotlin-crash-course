@@ -43,12 +43,23 @@ object ProductCatalogRepository {
         id: Int,
         newPrice: Double,
     ) {
-        val index = products.indexOfFirst { it.id == id }
-        if (index != -1) {
-            val updatedProduct = products[index].copy(price = newPrice)
+        products.firstOrNull { it.id == id }?.run {
+            val updatedProduct = copy(price = newPrice)
+            val index = products.indexOf(this)
             products[index] = updatedProduct
         }
     }
+
+//    fun updateProductPriceById(
+//        id: Int,
+//        newPrice: Double,
+//    ) {
+//        val index = products.indexOfFirst { it.id == id }
+//        if (index != -1) {
+//            val updatedProduct = products[index].copy(price = newPrice)
+//            products[index] = updatedProduct
+//        }
+//    }
 
     fun remoteProductById(id: Int) {
         products.removeAll { it.id == id }
